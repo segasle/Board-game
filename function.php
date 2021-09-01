@@ -31,14 +31,21 @@ function lnit(){
     $class ='';
     $out = '';
     foreach ($items as $item){
-        //добавление класса в тег li на активную страницу
-        if (!empty($_GET['page']) and $item['way'] == $_GET['page']){
-            $class = 'active';
+        if(!isset($item['way'])){
+            $page = '';
         }else{
-            $class = '';
+            $page = $item['way'];
         }
+        // добавление класса в тег li на активную страницу
+            if (!empty($_GET['page']) and $page == $_GET['page']){
+                $class = 'active';
+            }else{
+                $class = '';
+            }
+        
         //
-            $out .= '<li class="'.$class.'"><a href="?page='.$item['way'].'">'.$item['lnscription'] .'</a>';
+       
+            $out .= '<li class="'.$class.'"><a href="?page='.$page.'">'.$item['lnscription'] .'</a>';
             if (!empty($item['lever'])) {
                 $out .= menu($item['lever'], $i);
 
