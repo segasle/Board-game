@@ -18,7 +18,7 @@ function lnit(){
         $file = $_GET['page'];
     }
     include 'header.php';
-    include 'menu.php';
+   // include 'menu.php';
     include $file .'.php';
     include 'cellar.php';
 }
@@ -31,12 +31,32 @@ function lnit(){
     $class ='';
     $out = '';
     foreach ($items as $item){
+
+    //вложеность класса в тег ul
+    // if ($i >= 0) {      
+    //       $li_class = 'item';
+    // }
+    if ($i > 1) {
+        $ul_class = 'sub-list__menu';
+        // третий ul вложеность
+        if($i > 2){
+            $ul_class = 'sub-sub-list__menu';
+        }
+    }else{
+        $li_class = 'io';
+        $ul_class = 'menu-list';
+    }
+        if(!isset($item['class'])){
+            $liclass = '';
+        }else{
+            $liclass = $item['class'];
+        }
+        // добавление класса в тег li на ак
         if(!isset($item['way'])){
             $page = '';
         }else{
             $page = $item['way'];
         }
-        // добавление класса в тег li на активную страницу
             if (!empty($_GET['page']) and $page == $_GET['page']){
                 $class = 'active';
             }else{
@@ -45,7 +65,7 @@ function lnit(){
         
         //
        
-            $out .= '<li class="'.$class.'"><a href="?page='.$page.'">'.$item['lnscription'] .'</a>';
+            $out .= '<li class="menu-item '.$liclass.'"><a href="?page='.$page.'">'.$item['lnscription'] .'</a>';
             if (!empty($item['lever'])) {
                 $out .= menu($item['lever'], $i);
 
@@ -54,16 +74,6 @@ function lnit(){
 
 
     }
-    //вложеность класса в тег ul
-        if ($i > 1) {
-            $ul_class = 'two-lever';
-            // третий ul вложеность
-            if($i > 2){
-                $ul_class = 'three-level';
-            }
-        }else{
-            $ul_class = 'pull-left';
-        }
 
     $out = '<ul class="'. $ul_class .'">' . $out . '</ul>';
     return $out;
